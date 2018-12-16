@@ -113,7 +113,10 @@ int main(int argc, char *argv[])
 			count = atoi(argv[1]);
 
 		fprintf(stderr, "This can take a while: %d\n", count); fflush(stderr);
-		printf("%-8s 0x%016llx %02u-bits\n", "-max-", 0xeeddccbbaaULL, 40);
+		if (sizeof(size_t) == 8)
+			printf("%-8s 0x%016llx %02u-bits\n", "-max-", 0xeeddccbbaaULL, 40);
+		else
+			printf("%-8s 0x%016llx %02u-bits\n", "-max-", 0xddccbbaaULL, 32);
 		printf("%-8s 0x%016llx %02u-bits\n", "-page-", 0xFFFULL, 12);
 		run_tests(argv[0], "stack", count);
 		run_tests(argv[0], "heap", count);
