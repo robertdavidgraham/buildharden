@@ -8,14 +8,14 @@ int main(int argc, char *argv[])
 	char *a;
 	char *b;
 
-	fprintf(stderr, "pid=%d\n", getpid());
+	printf("pid=%d\n", getpid());
 
 	a = strdup("hello");
 	b = strdup("world");
 	printf("normal: %s %s\n", a, b);
 
 	/* buffer overlow */
-	strcpy(a, "bonjour");
+	sprintf(a, "bonjour");
 	printf("overflow: %s %s\n", a, b);
 
 	/* use-after-free */
