@@ -101,6 +101,9 @@ int main(int argc, char *argv[])
 	} else if (argc == 2 && strcmp(argv[1], "heap") == 0) {
 		printf("%p\n", malloc(5));
 		return 0;
+	} else if (argc == 2 && strcmp(argv[1], "heap2") == 0) {
+		printf("%p\n", malloc(5000000));
+		return 0;
 	} else if (argc == 2 && strcmp(argv[1], "stack") == 0) {
 		printf("%p\n", alloca(5));
 		return 0;
@@ -120,6 +123,7 @@ int main(int argc, char *argv[])
 		printf("%-8s 0x%016llx %02u-bits\n", "-page-", 0xFFFULL, 12);
 		run_tests(argv[0], "stack", count);
 		run_tests(argv[0], "heap", count);
+		run_tests(argv[0], "heap2", count);
 		run_tests(argv[0], "exec", count);
 		run_tests(argv[0], "static", count);
 		run_tests(argv[0], "libc", count);
