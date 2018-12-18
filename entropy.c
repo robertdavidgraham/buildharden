@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 
 #include <unistd.h>
 
@@ -96,7 +97,7 @@ spawn_program(const char *progname, const char *argument)
 static struct test_results
 parse_results(struct spawned *child)
 {   
-    struct test_results result = {0};
+    struct test_results result = {{0}};
     char buf[1024];
     FILE *fp;
     
@@ -109,7 +110,7 @@ parse_results(struct spawned *child)
         char *p = buf;
 
         for (j = 0; j<sizeof(result.values)/sizeof(result.values[0]); j++)
-            result.values[j] = strtoull(p, &p, 0);
+            result.values[j] = strtoull(p, &p, 16);
     }
     fclose(fp);
     close(child->fd[0]);
@@ -132,7 +133,7 @@ run_tests(const char *progname, size_t loop_count)
 {
     size_t i;
     struct test_results *results = calloc(loop_count, sizeof(*results));;
-    struct test_results mask = {0};
+    struct test_results mask = {{0}};
     
     /* Spawn many processes and store their results */
     for (i=0; i<loop_count; i++) {
@@ -206,7 +207,7 @@ print_layout(void)
         } else if (strcmp(name, "mmap") == 0) {
             printf("%p ", malloc(5000000));
         } else if (strcmp(name, "stack") == 0) {
-            printf("%p ", (void *)alloca(5));
+            printf("%p ", (void *)name);
         } else if (strcmp(name, "static") == 0) {
             printf("%p ", (void *)"static");
         } else
